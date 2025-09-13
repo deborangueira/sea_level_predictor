@@ -4,7 +4,7 @@ from scipy.stats import linregress
 
 def draw_plot():
     # Read data from file
-
+    df = pd.read_csv('sea_level_predictor.py')
 
     # Create scatter plot
 
