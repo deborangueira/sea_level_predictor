@@ -6,24 +6,25 @@ def draw_plot():
 
 # Read data from file
     df = pd.read_csv('epa-sea-level.csv')
-    print(df.head(3))
 
 # Create scatter plot
     
+    # Extraindo as colunas necessárias do df e armazenado-as nas variáveis
     years = df['Year']
     seaLevel = df['CSIRO Adjusted Sea Level']
 
+    # Plotando o gráfico de dispersão com as variáveis
     plt.scatter(years, seaLevel)
 
 # Create first line of best fit
 
-    # Definição do INTERVALO de anos.
-    x_1st =  pd.Series(range(1880, 2051)) # o range gera a sequência de anos, e o series transforma os dados em objeto pandas que pode ser usado para operações matemáticas
+    # Definição do INTERVALO de anos (nosso X)
+    x_1st =  pd.Series(range(1880, 2051)) # o range gera a sequência de num. inteiros, e o series transforma os dados em objeto pandas que pode ser usado para operações matemáticas
 
     # Cálculo dos PARÂMETROS que serão utilizados na regressão linear
-    slope, intercept, *_ = linregress(years, seaLevel) # atribuição de multiplos valores de uma só vez com tupla, ignorando os ultimos 3 valores que são retornados com a função
+    slope, intercept, *_ = linregress(years, seaLevel) # atribuição de multiplos valores de uma só vez com tupla, ignorando os ultimos 3 valores que são retornados com a função linregress (r_value, p_value e std_err)
 
-    # Escrevendo a regressão linear que vai gerar as PREVISÕES, com a equação matemática da reta: y = m*x + b (m -> slope (coeficiente angular); b -> intercept (cruzamento no Y))
+    # Regressão linear que vai gerar as PREVISÕES: utilizei a equação matemática da reta y = m*x + b; onde m -> slope (coeficiente angular); e b -> intercept (cruzamento no Y).
     y_pred = (slope * x_1st) + intercept
 
     # Plotando a linha vermelha no scatterplot já existente
@@ -31,13 +32,14 @@ def draw_plot():
 
 # Create second line of best fit
 
-    # Novo intervalo de dados
+    # Criar um novo dataframe filtrando apenas os dados de 2000 em diante
     df_recent = df[df['Year'] >= 2000]
 
+    # Extraindo as colunas necessárias do df e armazenado-as nas variáveis
     years_recent = df_recent["Year"]
     seaLevel_recent = df_recent['CSIRO Adjusted Sea Level']
 
-    # Definição do novo INTERVALO de anos.
+    # Definição do novo INTERVALO de anos
     x_2nd =  pd.Series(range(2000, 2051))
 
     # Novos parâmetros
@@ -46,9 +48,8 @@ def draw_plot():
     # Regressão linear
     y_pred2 = (slope_recent * x_2nd) + intercept_recent
 
-    # Plotando a linha roxa no scatterplot
-    plt.plot(x_2nd, y_pred2, color='purple')
-
+    # Plotando a linha amarela no scatterplot
+    plt.plot(x_2nd, y_pred2, color='yellow')
 
 # Add labels and title
 
